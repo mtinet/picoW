@@ -1,0 +1,27 @@
+<html>
+  <meta charset="utf-8">
+  <head>
+      <script>
+          function printGuGuDan(){
+              // document.getElementById("dan") dan 이라는 id 가 들어있는 html 태그 객체를 가져옴
+              console.dir(document.getElementById("dan"));
+              // 객체 내 namespaceURL 이라는 변수의  값을 가져옴
+              console.log(document.getElementById("dan").namespaceURI);
+
+              // 객체 내 value 변수의 값을 가져옴
+              var dan = document.getElementById("dan").value;
+
+              console.log("dan : "+dan)
+              // console.log("출력");
+              for(var i=1; i<10; i++){
+                  console.log(dan+" * "+i+" : "+dan*i);
+              }
+
+          }
+      </script>
+  </head>
+  <body>
+      <input type="text" name="" id="dan">
+      <input type="button" value="전송" onclick="printGuGuDan()">
+  </body>
+</html>
