@@ -3,8 +3,8 @@ import urequests
 from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함 
 
 # 와이파이 정보 
-SSID = 'U+Net454C'
-password = 'DDAE014478'
+SSID = 'U+Net03CC'
+password = 'J6FDFE#490'
 
 # 와이파이 연결하기
 def wifiConnect():
@@ -33,3 +33,4 @@ print(time_dict.json())
 # 타임존을 서울로 지정해서 출력하기
 updatedTime = timeOfSeoul()
 print(updatedTime)
+
