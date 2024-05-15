@@ -3,8 +3,8 @@ import urequests
 from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함 
 
 # 와이파이 정보 
-SSID = 'U+Net454C'
-password = 'DDAE014478'
+SSID = 'U+Net03CC'
+password = 'J6FDFE#490'
 
 # 자기 정보 넣기(Open Wether Map API Key, 측정하고자 하는 곳의 위도, 경도 정보, 자신이 사용하는 WiFi정보) 
 # https://openweathermap.org/appid 에서 로그인 하고 https://home.openweathermap.org/api_keys 로 이동해서 API Key를 발급받음
@@ -47,6 +47,7 @@ print()
 # aqi = 1 # 1~5까지의 인덱스로 아래의 실제 데이터 대신 테스트 해볼 수 있음 
 aqi = dataAQI['list'][0]['main']['aqi']
 print("AQI: " + str(aqi) + "[Good(1)~Bad(5)]")
+
 
 
 
