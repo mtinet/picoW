@@ -2,8 +2,8 @@ import network
 import time
 
 # 와이파이 정보 
-SSID = 'U+Net454C'
-password = 'DDAE014478'
+SSID = 'U+Net03CC'
+password = 'J6FDFE#490'
 
 # 와이파이 연결하기
 def wifiConnect():
