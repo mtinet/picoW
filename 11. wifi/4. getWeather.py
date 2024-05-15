@@ -1,10 +1,12 @@
 import network
 import urequests
-from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함 
+import time
+from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함
+
 
 # 와이파이 정보 
-SSID = 'U+Net454C'
-password = 'DDAE014478'
+SSID = 'U+Net03CC'
+password = 'J6FDFE#490'
 
 # 자기 정보 넣기(Open Wether Map API Key, 측정하고자 하는 곳의 위도, 경도 정보, 자신이 사용하는 WiFi정보) 
 # https://openweathermap.org/appid 에서 로그인 하고 https://home.openweathermap.org/api_keys 로 이동해서 API Key를 발급받음
@@ -36,8 +38,11 @@ wifiConnect()
 
 # 날씨 정보 조회
 # http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}
-urlWeather = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'
-response = urequests.get(urlWeather)
+# urlWeather = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'
+# response = urequests.get(urlWeather)
+# dataWeather = response.json()
+
+response = urequests.get(f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}')
 dataWeather = response.json()
 print(dataWeather)
 print()
@@ -51,5 +56,7 @@ location = dataWeather['name']
 print(f'Location: {location}')
 print(f'WeatherID: {weatherID}')
 print(f'Weather: {weather}')
+
+
 
 
