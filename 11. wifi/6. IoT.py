@@ -41,7 +41,7 @@ wlan = wifiConnect()
 controlPin = Pin(22, Pin.OUT)
 
 # firebase 리얼타임 데이터베이스 주소
-url = "https://iot-project-3c0b1-default-rtdb.firebaseio.com/"
+url = "자신의 RTDB주소"
 
 print("IoT System is Started.")
 
