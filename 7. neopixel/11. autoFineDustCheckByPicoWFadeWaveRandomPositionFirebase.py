@@ -41,7 +41,14 @@ else:
     print("WiFi is Connected")
     print()
 
+# firebase 리얼타임 데이터베이스 주소
+url = "https://iot-project-3c0b1-default-rtdb.firebaseio.com/"
 
+print("IoT System is Started.")
+
+# 객체 교체하기, 특정 값만 바뀜
+myobj = {'AQI': ''}
+urequests.patch(url+".json", json = myobj)
 
 # 네오픽셀의 셀 갯수, PIO상태, 핀번호 정의 
 numpix = 16
@@ -186,11 +193,15 @@ while True:
     for idx, (location, lat, lon) in enumerate(locations):
         try:
             air_quality_index = get_air_quality_index(lat, lon, API_KEY)
+            # 객체 교체하기, 특정 값만 바뀜
+            myobj = {'AQI': air_quality_index, 'Location': location}
+            urequests.patch(url+".json", json = myobj)
             set_neopixel_wave_custom(air_quality_index, idx + 1)
         except Exception as e:
             print("Error:", e)
             strip.clear()
         
         print()
+
 
 
