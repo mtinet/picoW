@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Fine Dust Checker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            transition: background 0.5s ease;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        #aqi, #location {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>IoT 미세먼지 체커</h1>
+        <div id="aqi">AQI: Loading...</div>
+        <div id="location">Location: Loading...</div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyChW5bKx67jYT_54q_ll7NFduKNDoSekkY",
+            authDomain: "iot-project-3c0b1.firebaseapp.com",
+            databaseURL: "https://iot-project-3c0b1-default-rtdb.firebaseio.com",
+            projectId: "iot-project-3c0b1",
+            storageBucket: "iot-project-3c0b1.appspot.com",
+            messagingSenderId: "33503766938",
+            appId: "1:33503766938:web:ae6d9b7a7dd41faa557223",
+            measurementId: "G-1MSC5Y4NH5"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        const aqiRef = database.ref('AQI');
+        const locationRef = database.ref('Location');
+
+        function updateBackgroundColor(aqi) {
+            let gradient;
+            switch(aqi) {
+                case 1:
+                    gradient = 'linear-gradient(to right, #00264d, #004080)';
+                    break;
+                case 2:
+                    gradient = 'linear-gradient(to right, #003300, #005900)';
+                    break;
+                case 3:
+                    gradient = 'linear-gradient(to right, #666600, #999900)';
+                    break;
+                case 4:
+                    gradient = 'linear-gradient(to right, #803300, #b34700)';
+                    break;
+                case 5:
+                    gradient = 'linear-gradient(to right, #4d0000, #800000)';
+                    break;
+                default:
+                    gradient = 'linear-gradient(to right, #6a11cb, #2575fc)';
+            }
+            document.body.style.background = gradient;
+        }
+
+        function updateData() {
+            aqiRef.on('value', (snapshot) => {
+                const aqiValue = snapshot.val();
+                document.getElementById('aqi').textContent = `AQI: ${aqiValue}`;
+                updateBackgroundColor(aqiValue);
+            });
+
+            locationRef.on('value', (snapshot) => {
+                document.getElementById('location').textContent = `Location: ${snapshot.val()}`;
+            });
+        }
+
+        window.onload = updateData;
+    </script>
+</body>
+</html>
