@@ -103,21 +103,52 @@ def set_neopixel_color(aqi):
         strip.set_pixel(i, color)
         time.sleep(0.01)
         strip.show()
+        
+
+def set_neopixel_color_breathing(aqi):
+    if aqi == 1:
+        color = (0, 0, 255)  # Blue
+    elif aqi == 2:
+        color = (255, 0, 0)  # Green
+    elif aqi == 3:
+        color = (255, 255, 0)  # Yellow
+    elif aqi == 4:
+        color = (100, 255, 0)  # Orange
+    elif aqi == 5:
+        color = (0, 255, 0)  # Red
+    else:
+        color = (0, 128, 128)  # Purple (unknown)
+
+    end_time = time.time() + 5  # 5초 동안 숨쉬기 효과
+    while time.time() < end_time:
+        for brightness in range(0, 256, 5):
+            strip.brightness(brightness)
+            for i in range(numpix):
+                strip.set_pixel(i, color)
+            strip.show()
+            time.sleep(0.05)
+        
+        for brightness in range(255, -1, -5):
+            strip.brightness(brightness)
+            for i in range(numpix):
+                strip.set_pixel(i, color)
+            strip.show()
+            time.sleep(0.05)
 
 while True:
-    # 시간정보 가져오기
     updatedTime = timeOfSeoul()
-    # print(type(updatedTime))
     print(updatedTime)
     
     for location, lat, lon in locations:
         try:
             air_quality_index = get_air_quality_index(lat, lon, API_KEY)
-            set_neopixel_color(air_quality_index)
+            set_neopixel_color_breathing(air_quality_index)
         except Exception as e:
             print("Error:", e)
-            color = (0, 0, 0)  # Black
+            for i in range(numpix):
+                strip.set_pixel(i, (0, 0, 0))  # Black
             strip.show()
         
-        time.sleep(5)  # 각 위치마다 5초 간격으로 업데이트
         print()
+
+

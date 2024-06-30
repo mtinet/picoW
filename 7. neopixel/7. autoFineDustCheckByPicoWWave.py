@@ -51,7 +51,7 @@ Pin = 22
 strip = Neopixel(numpix, PIO, Pin, "RGB")
 
 # 밝기 설정(0~255)
-strip.brightness(150)
+strip.brightness(255)
 
     
 def get_air_quality_index(lat, lon, api_key):
@@ -103,21 +103,50 @@ def set_neopixel_color(aqi):
         strip.set_pixel(i, color)
         time.sleep(0.01)
         strip.show()
+        
+
+def set_neopixel_wave_custom(aqi):
+    if aqi == 1:
+        color = (0, 0, 255)  # Blue
+    elif aqi == 2:
+        color = (255, 0, 0)  # Green
+    elif aqi == 3:
+        color = (255, 255, 0)  # Yellow
+    elif aqi == 4:
+        color = (100, 255, 0)  # Orange
+    elif aqi == 5:
+        color = (0, 255, 0)  # Red
+    else:
+        color = (0, 128, 128)  # Purple (unknown)
+
+    fade_steps = [1.0, 0.8, 0.6, 0.4, 0.3, 0.2, 0.1, 0]  # 8단계 밝기
+    start_indices = [0, 8]  # 시작 위치들
+
+    for _ in range(3):  # 반복 횟수
+        for i in range(numpix):
+            strip.clear()
+            for start in start_indices:
+                index = (start + i) % numpix
+                for j, step in enumerate(fade_steps):
+                    fade_index = (index - j) % numpix
+                    r = int(color[0] * step)
+                    g = int(color[1] * step)
+                    b = int(color[2] * step)
+                    strip.set_pixel(fade_index, (r, g, b))
+            strip.show()
+            time.sleep(0.1)  # 속도 조절
 
 while True:
-    # 시간정보 가져오기
     updatedTime = timeOfSeoul()
-    # print(type(updatedTime))
     print(updatedTime)
     
     for location, lat, lon in locations:
         try:
             air_quality_index = get_air_quality_index(lat, lon, API_KEY)
-            set_neopixel_color(air_quality_index)
+            set_neopixel_wave_custom(air_quality_index)
         except Exception as e:
             print("Error:", e)
-            color = (0, 0, 0)  # Black
-            strip.show()
+            strip.clear()
         
-        time.sleep(5)  # 각 위치마다 5초 간격으로 업데이트
         print()
+
