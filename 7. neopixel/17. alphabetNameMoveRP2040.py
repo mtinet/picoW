@@ -11,7 +11,10 @@ Pin = 16
 strip = Neopixel(numpix, PIO, Pin, "RGB")
 
 # 밝기 설정(0~255)
-strip.brightness(150)
+strip.brightness(40)
+
+# 반복해서 보여줄 단어 설정
+fixed_text = "HELLO JASON"  # 원하는 단어를 여기에 설정
 
 # 5x5 매트릭스 알파벳 정의 (대문자 A-Z)
 letters = {
@@ -236,8 +239,6 @@ def clear_matrix():
         strip.set_pixel(i, (0, 0, 0))
     strip.show()
 
-# 반복해서 보여줄 단어 설정
-fixed_text = "HELLO JASON"  # 원하는 단어를 여기에 설정
 
 # 애니메이션 실행
 while True:
