@@ -6,6 +6,7 @@ import network
 import urequests 
 from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함
 import random
+from machine import reset
 
 
 # 와이파이 정보 
@@ -61,7 +62,10 @@ strip = Neopixel(numpix, PIO, Pin, "RGB")
 # 밝기 설정(0~255)
 strip.brightness(255)
 
-    
+# 리셋을 위한 타이머 설정
+reset_interval = 7200  # 2시간(7200초)마다 리셋
+last_reset_time = time.time()
+
 def get_air_quality_index(lat, lon, api_key):
     # 아래의 날씨 정보나 공기 오염도 조회 주소를 복사하여 브라우저의 주소창에 넣고 엔터를 누르면 JSON의 형태로 데이터를 받아볼 수 있음 
     # 날씨 정보 조회
@@ -187,6 +191,13 @@ def set_neopixel_wave_custom(aqi, count):
     fade_out()  # 서서히 꺼지기
 
 while True:
+    # 현재 시간을 계산하여 리셋 타이머 확인
+    current_time = time.time()
+    if current_time - last_reset_time > reset_interval:
+        print("Performing scheduled reset...")
+        reset()  # 주기적 리셋 실행
+        last_reset_time = current_time  # 리셋 후 시간 갱신
+        
     updatedTime = timeOfSeoul()
     print(updatedTime)
 
@@ -202,6 +213,7 @@ while True:
             strip.clear()
         
         print()
+
 
 
 
