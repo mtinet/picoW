@@ -4,8 +4,8 @@ from time import sleep
 import machine
 
 # Yes, these could be in another file. But on the Pico! So no more secure. :)
-SSID = "U+Net454C"
-PASSWORD = "DDAE014478"
+SSID = "mtinet"
+PASSWORD = "33333333"
 
 def move_forward():
     print ("Forward")
