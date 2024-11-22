@@ -26,40 +26,14 @@ def web_page():
             <meta charset="UTF-8">
             <title>서보모터 제어</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-                input[type="submit"] {
-                    background-color: #007BFF;
-                    color: white;
-                    border: none;
-                    border-radius: 10px; /* 기존 둥근 모서리 유지 */
-                    font-size: 20px;
-                    height: 100px;
-                    width: 200px;
-                    cursor: pointer;
-                    margin: 2px; /* 버튼 간 간격 유지 */
-                }
-                input[type="submit"]:hover {
-                    background-color: #0056b3; /* 마우스 오버 시 색상 변경 */
-                }
-            </style>
             </head>
             <body>
             <h1>서보모터 제어</h1>
-            <form action="/servo?angle=0">
-                <input type="submit" value="0° (0도)">
-            </form>
-            <form action="/servo?angle=45">
-                <input type="submit" value="45° (45도)">
-            </form>
-            <form action="/servo?angle=90">
-                <input type="submit" value="90° (90도)">
-            </form>
-            <form action="/servo?angle=135">
-                <input type="submit" value="135° (135도)">
-            </form>
-            <form action="/servo?angle=180">
-                <input type="submit" value="180° (180도)">
-            </form>
+            <a href="/servo?angle=0"><button style="height:100px; width:200px; font-size:20px">0° (0도)</button></a>
+            <a href="/servo?angle=45"><button style="height:100px; width:200px; font-size:20px">45° (45도)</button></a>
+            <a href="/servo?angle=90"><button style="height:100px; width:200px; font-size:20px">90° (90도)</button></a>
+            <a href="/servo?angle=135"><button style="height:100px; width:200px; font-size:20px">135° (135도)</button></a>
+            <a href="/servo?angle=180"><button style="height:100px; width:200px; font-size:20px">180° (180도)</button></a>
             </body>
             </html>
            """
