@@ -17,6 +17,9 @@ def wifiConnect():
         while not wlan.isconnected():
             print(".", end="")
             time.sleep(1)
+        print()
+        print(wlan.ifconfig())
+        print("WiFi is Connected")
     else:
         print(wlan.ifconfig())
         print("WiFi is Connected")

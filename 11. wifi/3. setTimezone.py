@@ -1,7 +1,6 @@
 import network
 import urequests
 from timezoneChange import timeOfSeoul # timezoneChange.py 파일이 같은 폴더에 있어야 동작함 
-import time
 
 # 와이파이 정보 
 SSID = 'U+Net03CC'
@@ -19,6 +18,9 @@ def wifiConnect():
         while not wlan.isconnected():
             print(".", end="")
             time.sleep(1)
+        print()
+        print(wlan.ifconfig())
+        print("WiFi is Connected")
     else:
         print(wlan.ifconfig())
         print("WiFi is Connected")
