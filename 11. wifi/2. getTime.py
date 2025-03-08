@@ -31,10 +31,8 @@ def wifiConnect():
 wifiConnect()
 
 # 시간 정보 가져와서 출력하기 
-time_dict = urequests.get("http://date.jsontest.com")
+time_dict = urequests.get("https://timejson.netlify.app/.netlify/functions/time")
 print(time_dict.json())
-
 print(time_dict.json()['milliseconds_since_epoch'])
-print(time_dict.json()['date'])
 print(time_dict.json()['time'])
 
