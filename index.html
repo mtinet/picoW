@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실시간 시간 업데이트</title>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-    <script>
+    <title>Firebase 데이터 표시</title>
+    <script type="module">
+        // Firebase 모듈 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        let mois = 100;
+
         // Firebase 설정
         const firebaseConfig = {
             apiKey: "AIzaSyDAVmP_RKwPdkyb001_lD2zlJf3Jdh14og",
@@ -20,26 +24,46 @@
         };
         
         // Firebase 초기화
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        // 데이터베이스에서 updatedTime 값 실시간 감지
-        function fetchUpdatedTime() {
-            const timeRef = database.ref("picoW/updatedTime");
-            timeRef.on("value", (snapshot) => {
-                const updatedTime = snapshot.val();
-                document.getElementById("updatedTime").innerText = updatedTime ? updatedTime : "데이터 없음";
+        // Firebase 정보 가져오기
+        function fetchData() {
+            const dataContainer = document.getElementById('data-container');
+            const picoWRef = ref(database, "--picoW");
+            onValue(picoWRef, (snapshot) => {
+                const data = snapshot.val();
+                console.log("데이터 불러오기 성공", data);
+
+                if (data) {
+                    dataContainer.innerHTML = "";
+                    Object.keys(data).forEach(key => {
+                        const item = document.createElement('div');
+                        item.className = 'data-item';
+                        item.textContent = `${key}: ${JSON.stringify(data[key])}`;
+                        dataContainer.appendChild(item);
+                    });
+                    mois = data.mois;
+                    console.log("mois 값:", mois);
+                } else {
+                    dataContainer.innerHTML = "데이터가 없습니다.";
+                }
+            }, (error) => {
+                console.error("데이터를 불러오는 중 오류 발생", error);
             });
         }
-
-        window.onload = fetchUpdatedTime;
+        
+        // 페이지 로드 시 데이터 가져오기
+        window.onload = fetchData;
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #data-container { margin-top: 20px; }
+        .data-item { background: #f1f1f1; padding: 10px; margin: 5px; border-radius: 5px; }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="bg-white p-6 rounded-lg shadow-md text-center">
-        <h1 class="text-2xl font-bold mb-4">실시간 업데이트 시간</h1>
-        <p id="updatedTime" class="text-lg text-blue-600 font-mono">로딩 중...</p>
-    </div>
+<body>
+    <h1>Firebase 데이터 목록</h1>
+    <div id="data-container"></div>
 </body>
 </html>
